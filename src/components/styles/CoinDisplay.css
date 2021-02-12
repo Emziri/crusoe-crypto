@@ -1,0 +1,20 @@
+
+.CoinDisplay{
+	margin: auto;
+}
+
+.coinsContainer {
+	display: flex;
+	flex-wrap: nowrap;
+	overflow: auto;
+}
+
+.greenTxt {
+	color: limegreen;
+	font-weight: 600;
+}
+
+.redTxt {
+	color: red;
+	font-weight: 600;
+}
