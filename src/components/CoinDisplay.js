@@ -27,18 +27,15 @@ const CoinDisplay = () => {
 		},
 		{
 			Header: "Symbol",
-			accessor: "symbol",
-			Cell: props => {return props.value.toUpperCase()}
+			accessor: "symbol"		
 		},
 		{
 			Header: "Price",
-			accessor: "current_price",
-			Cell: props => {return toCurrency(props.value, true)}
+			accessor: "current_price"
 		},
 		{
 			Header: "Volume",
-			accessor: "total_volume",
-			Cell: props => {return toCurrency(props.value, false)}
+			accessor: "total_volume"
 		},
 		{
 			Header: "24h",
@@ -49,7 +46,6 @@ const CoinDisplay = () => {
 					cngClr = "redTxt"
 				}
 
-
 				return (
 				<div className={cngClr}>{toPercent(props.value/100)}</div>
 				)
@@ -57,23 +53,19 @@ const CoinDisplay = () => {
 		},
 		{
 			Header: "Market Cap",
-			accessor: "market_cap",
-			Cell: props => {return toCurrency(props.value, false)}
+			accessor: "market_cap"
 		},
 		{
 			Header: "Circulating",
-			accessor: "circulating_supply",
-			Cell: props => {return toPrecision(props.value, 0)}
+			accessor: "circulating_supply"
 		},
 		{
 			Header: "All Time High",
-			accessor: "ath", 
-			Cell: props => {return toCurrency(props.value, true)}
+			accessor: "ath"
 		},
 		{
 			Header: "Days Since ATH",
-			accessor: "ath_date",
-			Cell: props => {return daysSince(props.value)}
+			accessor: "days_since",
 		},
 		{
 			Header: "Percent Market Value",
@@ -110,7 +102,8 @@ const CoinDisplay = () => {
 
 			const coinResponse = await fetch(url, reqInit);
 			let coinData = await coinResponse.json();
-			coinData = calcPercentMarketValue(coinData);
+			coinData = structureData(coinData);
+
 
 			setCoins(coinData);
 
@@ -120,11 +113,19 @@ const CoinDisplay = () => {
 	}
 
 	//uses bigint to get percent of market cap to precision of 2 decimal places, formats for table
-	const calcPercentMarketValue = (data) => {
+	const structureData = (data) => {
 		let totalMV = 0n;
 
 		data.forEach((entry) => {
 			totalMV += BigInt(entry.market_cap);
+
+			//formatting columns as we go, means table isn't constantly rerendering
+			entry.days_since = daysSince(entry.ath_date);
+			entry.symbol = entry.symbol.toUpperCase();
+			entry.current_price = toCurrency(entry.current_price, true);
+			entry.total_volume = toCurrency(entry.total_volume, false);
+			entry.circulating_supply = toPrecision(entry.circulating_supply);
+			entry.ath = toCurrency(entry.ath, true);
 		});
 
 		data.forEach((entry) => {
@@ -132,6 +133,7 @@ const CoinDisplay = () => {
 
 			let percMV = parseInt(mCap * 10000n / totalMV) / 10000;
 			entry.percent_mv = toPercent(percMV);
+			entry.market_cap = toCurrency(entry.market_cap, false);
 		});
 
 		return data;
