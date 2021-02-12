@@ -9,6 +9,8 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 
 const CoinTable = ({columns, data}) => {
+
+	//useTable hook to make react-table
 	const { 
 		getTableProps,
 		getTableBodyProps,
@@ -17,6 +19,7 @@ const CoinTable = ({columns, data}) => {
 		prepareRow
 	} = useTable({columns, data}, useSortBy);
 
+	//using MaUTable css for clean formatting
 	return (
 		<MaUTable {...getTableProps()}>
 			<TableHead>

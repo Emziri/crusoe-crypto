@@ -4,10 +4,18 @@ import CoinTable from './CoinTable';
 import {toCurrency, toPercent, toDay, toPrecision, daysSince} from '../util/FormatUtil';
 import './styles/CoinDisplay.css'
 
+
+/*
+	Component to contruct and format data for using in the coinTable component
+	Updates state from API call every 
+*/
+
 const CoinDisplay = () => {
 
+	//Table data set as state
 	const[coins, setCoins] = useState([]);
 
+	//Columns specifications/cell formatting for use in table child component
 	const columns = useMemo(() =>[
 		{
 			Header: "Rank",
@@ -74,6 +82,7 @@ const CoinDisplay = () => {
 
 	]);
 
+	//initiate async API call every 5 seconds
 	useEffect(() => {
 		getCoins();
 
@@ -84,10 +93,12 @@ const CoinDisplay = () => {
 		return () =>clearInterval(interval);
 	}, []);
 
+	//Async call to get API data, make column calculations, and update state
 	const getCoins = async () => {	
 		try{
 			const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false';
 
+			//cache needs to always check from server if data's changed
 			const rHeaders = new Headers();
 			rHeaders.append('pragma', 'no-cache');
 			rHeaders.append('cache-control', 'no-cache');
@@ -108,6 +119,7 @@ const CoinDisplay = () => {
 		}
 	}
 
+	//uses bigint to get percent of market cap to precision of 2 decimal places, formats for table
 	const calcPercentMarketValue = (data) => {
 		let totalMV = 0n;
 
