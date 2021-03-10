@@ -146,7 +146,7 @@ const CoinDisplay = () => {
 			entry.symbol = entry.symbol.toUpperCase();
 			entry.current_price = toCurrency(entry.current_price, true);
 			entry.total_volume = toCurrency(entry.total_volume, false);
-			entry.circulating_supply = toPrecision(entry.circulating_supply);
+			entry.circulating_supply = toPrecision(entry.circulating_supply, 2);
 			entry.ath = toCurrency(entry.ath, true);
 		});
 

@@ -29,7 +29,7 @@ const toPercent = (val) => {
 }
 
 const toPrecision = (val, digits) => {
-	return new Intl.NumberFormat('en-US', {maximumFractionDigits: digits}).format(val);
+	return new Intl.NumberFormat('en-US', {minimumFractionDigits: digits, maximumFractionDigits: digits}).format(val);
 }
 
 module.exports = {
