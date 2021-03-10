@@ -1,3 +1,9 @@
 .boldHeader {
 	font-weight: 700 !important;
 }
+
+.sticky-header th {
+	border-bottom: 2px lightgrey solid;
+	padding-top: 0;
+	padding-bottom: 0;
+}

@@ -1,11 +1,22 @@
 .CoinDisplay{
 	margin: auto;
+	background-color: #001C55;
+	overflow: auto;
+}
+
+h1 {
+	color: white;
+	font-size: 3em;
 }
 
 .coinsContainer {
 	display: flex;
 	flex-wrap: nowrap;
 	overflow: auto;
+	height: 80vh;
+	margin: auto;
+	max-width: 90%;
+	background-color: white;
 }
 
 .greenTxt {

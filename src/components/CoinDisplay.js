@@ -15,8 +15,21 @@ const CoinDisplay = () => {
 	//Table data set as state
 	const[coins, setCoins] = useState([]);
 
+	const strippedSort = useMemo(() => (rowA, rowB, id) => {
+		let valA = rowA.original[id];
+		let valB = rowB.original[id];
+
+		if(typeof valA === "string"){
+			valA = Number(valA.replace(/(\%|^\$|,)/g, ''));
+			valB = Number(valB.replace(/(\%|^\$|,)/g, ''));
+		}
+		
+		return valA - valB;
+	});
+
 	//Columns specifications/cell formatting for use in table child component
-	const columns = useMemo(() =>[
+	const columns = useMemo(() =>{
+		return ([
 		{
 			Header: "Rank",
 			accessor: "market_cap_rank"
@@ -31,15 +44,18 @@ const CoinDisplay = () => {
 		},
 		{
 			Header: "Price",
-			accessor: "current_price"
+			accessor: "current_price",
+			sortType: strippedSort
 		},
 		{
 			Header: "Volume",
-			accessor: "total_volume"
+			accessor: "total_volume",
+			sortType: strippedSort
 		},
 		{
 			Header: "24h",
 			accessor: "price_change_percentage_24h",
+			sortType: strippedSort,
 			Cell: props => {
 				let cngClr = "greenTxt"
 				if(props.value < 0){
@@ -53,26 +69,32 @@ const CoinDisplay = () => {
 		},
 		{
 			Header: "Market Cap",
-			accessor: "market_cap"
+			accessor: "market_cap",
+			sortType: strippedSort
 		},
 		{
 			Header: "Circulating",
-			accessor: "circulating_supply"
+			accessor: "circulating_supply",
+			sortType: strippedSort
 		},
 		{
 			Header: "All Time High",
-			accessor: "ath"
+			accessor: "ath",
+			sortType: strippedSort
 		},
 		{
 			Header: "Days Since ATH",
 			accessor: "days_since",
+			sortType: strippedSort
 		},
 		{
 			Header: "Percent Market Value",
-			accessor: "percent_mv"
+			accessor: "percent_mv",
+			sortType: strippedSort
 		}
 
-	]);
+		]);
+	});
 
 	//initiate async API call every 5 seconds
 	useEffect(() => {
@@ -141,6 +163,7 @@ const CoinDisplay = () => {
 
 	return (
 		<div className="CoinDisplay">
+			<h1>Cryptocurrency Data</h1>
 			<div className="coinsContainer">
 				<CoinTable columns={columns} data={coins}/>
 			</div>

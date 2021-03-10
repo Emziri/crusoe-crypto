@@ -17,12 +17,12 @@ const CoinTable = ({columns, data}) => {
 		headerGroups,
 		rows,
 		prepareRow
-	} = useTable({columns, data}, useSortBy);
+	} = useTable({columns, data, "autoResetSortBy": false}, useSortBy);
 
 	//using MaUTable css for clean formatting
 	return (
-		<MaUTable {...getTableProps()}>
-			<TableHead>
+		<MaUTable stickyHeader {...getTableProps()}>
+			<TableHead className="sticky-header">
 				{headerGroups.map(headerGroup => (
           			<TableRow {...headerGroup.getHeaderGroupProps()}>
             			{headerGroup.headers.map(column => {
