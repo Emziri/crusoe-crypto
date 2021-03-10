@@ -1,6 +1,7 @@
 .CoinDisplay{
 	margin: auto;
 	background-color: #001C55;
+	height: 100vh;
 	overflow: auto;
 }
 
@@ -13,7 +14,7 @@ h1 {
 	display: flex;
 	flex-wrap: nowrap;
 	overflow: auto;
-	height: 80vh;
+	height: 77vh;
 	margin: auto;
 	max-width: 90%;
 	background-color: white;
